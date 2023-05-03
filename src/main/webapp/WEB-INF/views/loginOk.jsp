@@ -29,7 +29,7 @@
 
 	${memberId}님 로그인 하였습니다.<br>
 	게시판에 열심히 글을 써주세요!!<br>
-	<a href="write_form">게시판 바로가기</a>
+	<a href="write_form">게시판 바로가기</a><br><br>
 	<a href="logout">로그아웃</a>
 </body>
 </html>

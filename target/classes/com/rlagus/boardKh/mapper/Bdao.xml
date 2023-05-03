@@ -6,16 +6,47 @@
     
 <mapper namespace="com.rlagus.boardKh.dao.Bdao">
 
+	<!-- 멤버 관련 쿼리 -->
 	<insert id="joinMemberDao">
 		INSERT INTO fbmember (mid, mpw, mname, memail) VALUES (#{param1}, #{param2},#{param3}, #{param4})
 	</insert>
 
 	<select id="checkIdDao" resultType="int">
    		SELECT count(*) FROM fbmember WHERE mid=#{param1}   
-  	 </select>
+  	</select>
   	 
-  	 <select id="checkIdPwDao" resultType="int">
-  	 	SELECT count(*) FROM fbmember WHERE mid=#{param1} AND mpw=#{param2}
-  	 </select>
-
+  	<select id="checkIdPwDao" resultType="int">
+  	 SELECT count(*) FROM fbmember WHERE mid=#{param1} AND mpw=#{param2}
+  	</select>
+  	
+  	 
+	<!-- 게시판 관련 쿼리 -->
+	<select id="getMemberInfo" resultType="com.rlagus.boardKh.dto.FbMemberDto">
+		SELECT * FROM fbmember WHERE mid=#{param1}
+	</select>
+	
+	<insert id="writeDao">			<!-- 오라클 사용시 시퀀스로 AI 입력해야함 -->
+		INSERT INTO freeboard(fnum, fid, fname, ftitle, fcontent, fhit) VALUES(myboard_seq.nextval , #{param1}, #{param2}, #{param3}, #{param4}, 0)
+	</insert>
+	
+	<select id="listDao" resultType="com.rlagus.boardKh.dto.FreeBoardDto">		<!-- 레코드 하나를 받을 타입, 여러개 레코드면 자동으로 리스트에 담음 -->
+		SELECT * FROM freeboard ORDER BY fnum DESC
+	</select>
+	
+	<select id="countList" resultType="int">
+		SELECT count(*) FROM freeboard
+	</select>
+	
+	<select id="contentViewDao" resultType="com.rlagus.boardKh.dto.FreeBoardDto">
+		SELECT * FROM freeboard WHERE fnum=#{param1}
+	</select>
+	
+	<delete id="deleteDao">
+		DELETE FROM freeboard WHERE fnum=#{param1}
+	</delete>
+	
+	<update id="uphitDao">			<!-- 조회수 1증가 쿼리 -->
+		UPDATE freeboard SET fhit=fhit+1 WHERE fnum=#{param1}
+	</update>
+	
 </mapper>
